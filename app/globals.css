@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand Colors */
+  --background: #f7f5f4;
+  --surface: #ffffff;
+
+  --primary: #d9b8ae;
+  --primary-dark: #c79d92;
+
+  --secondary: #f4eee8;
+
+  --accent: #b4a7c8;
+
+  --text: #353535;
+  --text-light: #666666;
+
+  --border: #e7dfda;
+
+  --success: #4caf50;
+  --warning: #ffb300;
+  --danger: #d32f2f;
+
+  --radius: 18px;
+  --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --transition: all 0.3s ease;
+}
+
+/*
+  IMPORTANT: everything below is wrapped in @layer base.
+  Tailwind v4 puts all utility classes (p-*, m-*, gap-*, etc.) inside
+  CSS cascade layers. Any rule written OUTSIDE a @layer is treated by
+  the browser as higher priority than ALL layered rules, no matter its
+  specificity or source order. An unlayered `* { margin:0; padding:0 }`
+  will silently override every spacing utility in the entire app.
+  Keeping custom base styles inside @layer base avoids that trap and
+  lets Tailwind's own preflight (already in base) handle the reset.
+*/
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--text);
+    font-family: var(--font-body), Arial, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading), var(--font-body), Arial, sans-serif;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+}
+
+@layer components {
+  .page-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
+    padding: 40px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 24px;
+  }
+
+  .primary-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 14px;
+    transition: var(--transition);
+  }
+
+  .primary-btn:hover {
+    background: var(--primary-dark);
+  }
+
+  .secondary-btn {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 14px 28px;
+    border-radius: 14px;
+  }
+
+  .section-title {
+    font-size: 38px;
+    font-weight: 700;
+  }
+
+  .section-subtitle {
+    margin-top: 14px;
+    color: var(--text-light);
+    font-size: 18px;
+    line-height: 1.8;
+  }
+}
+
+@layer utilities {
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.7s ease-out both;
+  }
+
+  .animate-float {
+    animation: float 5s ease-in-out infinite;
+  }
+
+  .delay-100 {
+    animation-delay: 0.1s;
+  }
+  .delay-200 {
+    animation-delay: 0.2s;
+  }
+  .delay-300 {
+    animation-delay: 0.3s;
+  }
+  .delay-500 {
+    animation-delay: 0.5s;
+  }
+}
