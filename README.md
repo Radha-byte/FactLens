@@ -1,252 +1,127 @@
-# 🧠 BRAID
+# FactLens
 
-## ET AI Hackathon 2026
+A fact knowledge layer that extracts atomic facts from PDF documents, links every fact to its verbatim source evidence (document + page + quote), and identifies where facts across documents corroborate, contradict, or are reconciled by context (time period, scope, or units).
 
-### *Documents that finally talk to each other.*
-
-[Live Link](https://braid-psi.vercel.app/)
-
-<p align="center">
-
-**An AI-powered Industrial Knowledge Intelligence Platform that transforms fragmented industrial documents into a searchable, connected, and explainable operational knowledge base.**
-
-Built for **ET AI Hackathon 2026**, BRAID leverages Retrieval-Augmented Generation (RAG), Google Gemini, semantic search, and knowledge extraction to help engineers instantly retrieve trusted information, explore equipment history, detect operational risks, and preserve institutional knowledge.
-
-</p>
-
-<p align="center">
-
-![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)
-
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-
-![Gemini](https://img.shields.io/badge/Google-Gemini-blue?style=for-the-badge&logo=google)
-
-![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
-
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql)
-
-</p>
+Built for the Superjoin VIT 2026 Engineering Intern hiring assignment.
 
 ---
 
-## ❗ Problem Statement
+## Setup and Run Instructions
 
-Industrial organizations rely on thousands of documents such as maintenance manuals, SOPs, inspection reports, maintenance logs, and undocumented operator knowledge. However, this information is often scattered across disconnected systems, making it difficult for engineers to quickly retrieve critical insights.
+### Prerequisites
+- Node.js 18+
+- A [Supabase](https://supabase.com) project with the `pgvector` extension enabled
+- A [Gemini API key](https://aistudio.google.com/apikey) (free tier)
 
-This leads to:
-- ⏳ Time-consuming manual document searches
-- 📄 Disconnected operational knowledge
-- 🧠 Loss of institutional expertise
-- ⚠️ Increased operational and compliance risks
-
----
-
-## 💡 Our Solution
-
-BRAID transforms fragmented industrial documents into a unified AI-powered knowledge platform. Using semantic search, Retrieval-Augmented Generation (RAG), and Google Gemini, it understands documents, connects related information, and delivers trusted, citation-backed answers in seconds.
-
-Engineers can search equipment history, interact with an AI Copilot, detect operational risks, and preserve valuable tacit knowledge—all from a single platform.
-
----
-
-## ✨ Key Features
-
-- 📄 **AI Document Processing** – Extracts structured information from manuals, SOPs, inspection reports, and maintenance logs.
-- 🤖 **AI Copilot** – Ask natural language questions and receive grounded answers with source citations.
-- 🔍 **Equipment Explorer** – Discover related equipment, documents, technicians, and maintenance history across all uploaded files.
-- ⚠️ **Smart Flags** – Automatically identifies compliance issues, operational risks, and overdue inspections.
-- 🧠 **Knowledge Capture** – Preserve undocumented operator expertise through text or voice input.
-- 📊 **Interactive Dashboard** – Monitor uploaded documents, tracked equipment, and active operational insights.
-
----
-
-## 📸 Platform Preview
-
-### 🏠 Landing Page
-
-> Modern AI-powered industrial knowledge platform with a clean and intuitive interface.
-
-<p align="center">
-  <img src="assets/landing.jpeg" width="95%">
-</p>
-
----
-
-### 📊 Dashboard
-
-> Monitor uploaded documents, tracked equipment, and operational insights from a centralized dashboard.
-
-<p align="center">
-  <img src="assets/dashboard.jpeg" width="95%">
-</p>
-
----
-
-### 🔍 Equipment Explorer
-
-> Search equipment, technicians, procedures, and entities across every uploaded document using semantic search.
-
-<p align="center">
-  <img src="assets/equipment-explorer.jpeg" width="95%">
-</p>
-
----
-
-### 🤖 AI Copilot
-
-> Ask operational questions in natural language and receive grounded answers with source citations.
-
-<p align="center">
-  <img src="assets/ai-copilot.jpeg" width="95%">
-</p>
-
----
-
-### 📤 Upload & Analyze
-
-> Upload industrial documents for AI-powered parsing, entity extraction, and indexing.
-
-<p align="center">
-  <img src="assets/upload.jpeg" width="95%">
-</p>
-
----
-
-### 🧠 Knowledge Capture
-
-> Preserve tacit operator knowledge and make it instantly searchable across the platform.
-
-<p align="center">
-  <img src="assets/knowledge-capture.jpeg" width="95%">
-</p>
-
----
-
-## ⚙️ System Workflow
-
-```text
-Documents
-     │
-     ▼
- Upload & Analyze
-     │
-     ▼
- AI Processing
-     │
-     ▼
- Knowledge Extraction
-     │
-     ▼
- Semantic Search + RAG
-     │
-     ▼
- AI Copilot • Equipment Explorer • Smart Flags
-```
-
-BRAID transforms fragmented industrial documents into a unified, searchable, and explainable knowledge base, enabling engineers to retrieve trusted information and make faster operational decisions.
-
----
-
-## 🛠️ Tech Stack
-
-| Category | Technologies |
-|----------|--------------|
-| **Frontend** | Next.js, React, TypeScript, Tailwind CSS |
-| **Backend** | Next.js API Routes |
-| **AI** | Google Gemini API |
-| **Database** | Supabase (PostgreSQL) |
-| **Storage** | Supabase Storage |
-| **AI Techniques** | Retrieval-Augmented Generation (RAG), Semantic Search, Entity Extraction |
-| **Deployment** | Vercel |
-
----
-
-## 🏗️ System Architecture
-
-<p align="center">
-  <img src="assets/architecture.jpeg" width="100%">
-</p>
-
-BRAID follows a Retrieval-Augmented Generation (RAG) pipeline that processes industrial documents, extracts structured knowledge, performs semantic retrieval, and generates grounded AI responses with source-backed insights.
-
----
-
-## 📂 Project Structure
-
-```text
-BRAID/
-├── app/                # Next.js App Router
-├── components/         # Reusable UI Components
-├── lib/                # AI & Utility Functions
-├── public/             # Static Assets
-├── supabase/           # Database & Storage Config
-├── assets/             # README Images
-├── package.json
-└── README.md
-```
-
----
-
-## 🚀 Getting Started
-
-### Clone the repository
-
+### 1. Clone and install
 ```bash
-git clone https://github.com/your-username/BRAID.git
-cd BRAID
-```
-
-### Install dependencies
-
-```bash
+git clone https://github.com/Radha-byte/FactLens.git
+cd FactLens
 npm install
 ```
 
-### Configure Environment Variables
+### 2. Set up the database
+In your Supabase project's SQL Editor, run the schema in `supabase/schema.sql` (creates `documents`, `facts`, `fact_relationships`, and the `match_facts` vector search function).
 
-Create a `.env.local` file and add:
-
-```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_key
-GOOGLE_API_KEY=your_gemini_api_key
+Also grant the service role the required table privileges (needed once, since tables created via the SQL Editor don't get this automatically):
+```sql
+grant usage on schema public to service_role;
+grant select, insert, update, delete on all tables in schema public to service_role;
+grant usage, select on all sequences in schema public to service_role;
 ```
 
-### Run the application
+Create a public storage bucket named `documents` (Storage → New bucket).
 
+### 3. Configure environment variables
+Create `.env.local` in the project root:
+```
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-supabase-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+GEMINI_API_KEY=your-gemini-api-key
+```
+
+### 4. Run
 ```bash
 npm run dev
 ```
+Open `http://localhost:3000`.
 
-Open **http://localhost:3000** in your browser.
-
----
-
-## 🚀 Future Scope
-
-- 🌐 Multi-language document understanding
-- 📈 Predictive maintenance recommendations
-- 📡 Integration with IoT and real-time sensor data
-- 🗺️ Interactive knowledge graph visualization
-- 🔐 Role-Based Access Control (RBAC)
-- 🏭 ERP / SAP integration for enterprise workflows
+### 5. Usage
+1. Go to **Upload**, upload a PDF. The pipeline extracts per-page text, pulls out atomic facts via Gemini, embeds each fact, and stores everything with page-level evidence.
+2. After uploading multiple documents, trigger cross-document relationship matching:
+   ```bash
+   curl -X POST http://localhost:3000/api/admin/match-relationships
+   ```
+   This is a separate, re-runnable step by design (see Approach below) — safe to run again if it's interrupted partway.
+3. Go to **Relationships** to see fact pairs classified as corroborating, contradicting, or reconciled by context, each with the model's reasoning and both pieces of source evidence.
 
 ---
 
-## 👥 Team
+## Video Demo
 
-Developed as part of **ET AI Hackathon 2026**.
+**[Link to demo video — under 3 minutes]**
 
-- Team Member 1: Khushie Brahma
-- Team Member 2: Prisha Thapar
-- Team Member 3: Radha Rani
+Shows: a PDF being uploaded and processed live, and the four required cases (corroboration, contradiction, reconciled-by-context, and an extraction/reasoning failure).
 
 ---
 
-## 📄 License
+## Approach
 
-This project was developed for the **ET AI Hackathon 2026** and is intended for educational and demonstration purposes.
+### Architecture
+```
+PDF upload
+   │
+   ▼
+Per-page text extraction (unpdf) — preserves real page numbers for evidence linking
+   │
+   ▼
+Per-page fact extraction (Gemini) — atomic facts as structured JSON:
+   subject / predicate / value / unit / time_period / scope / quote / confidence
+   │
+   ▼
+Quote verification — each fact's quote is checked against the source page text
+(whitespace-normalized) before being accepted; unverifiable facts are dropped
+   │
+   ▼
+Embedding (Gemini embeddings, 768-dim) — stored alongside each fact
+   │
+   ▼
+[separate step] Cross-document matching — vector similarity search (pgvector)
+finds candidate fact pairs across different documents
+   │
+   ▼
+[separate step] Relationship classification (Gemini) — each candidate pair is
+classified as corroborates / contradicts / reconciled_by_context / unrelated,
+with a one-sentence reasoning grounded in both facts' evidence
+```
 
+### Key decisions and trade-offs
+
+- **Facts are extracted per page, not per document.** Sending an entire PDF to the model in one call (as an earlier iteration of this project's ingestion pipeline did) makes it impossible to know which page a claim came from. Splitting into per-page text first means every fact carries a real page number, which is what makes the evidence link meaningful rather than just "somewhere in this file."
+
+- **Every extracted fact is quote-verified before being stored.** The model is asked to cite a verbatim quote for each fact; that quote is checked against the actual page text (after normalizing whitespace, since PDF line-wrapping doesn't always match the model's rendering of a sentence) before the fact is accepted. This is a deliberate defense against hallucinated facts — a fact with no real anchor in the source text is dropped rather than trusted.
+
+- **Relationship matching is a separate, resumable step from ingestion**, not a side effect of upload. Cross-document comparison requires an LLM call per candidate pair, on top of the extraction and embedding calls already required per fact — chaining all of this into one long request per upload made the whole pipeline fragile to any single transient failure (rate limits, momentary network issues). Decoupling means an upload finishes once its own facts are saved, and relationship matching can be triggered, interrupted, and safely re-run without reprocessing or duplicating anything (enforced by a uniqueness constraint on fact pairs).
+
+- **The schema is intentionally generic** (subject/predicate/value/unit/time_period/scope/quote), not shaped around this project's two sample datasets. Nothing in the prompts or schema assumes financial documents specifically — the same pipeline should extract structured facts from a differently-shaped domain without code changes, which was an explicit requirement of the assignment.
+
+- **AI tools used**: Gemini (`gemini-3.1-flash-lite`) for fact extraction and relationship classification, and Gemini's embedding model for vector similarity search. Claude was used throughout development for architecture planning, debugging, and code review.
+
+- **This project builds on my own prior work** ([BRAID](https://github.com/), a document-intelligence platform built for a separate hackathon) — the Next.js/Supabase/pgvector/Gemini infrastructure, PDF upload flow, and UI shell were reused and adapted; the fact-extraction schema, quote-verification step, and cross-document relationship classification logic described above are new, built specifically for this assignment's requirements.
+
+---
+
+## Limitations and Next Steps
+
+- **Rate limits**: the Gemini free tier caps requests per minute, so processing a long document (extraction + embedding + matching, one call each per fact) can take several minutes. A request queue with throttling and retry-on-failure is in place, but a production version would batch extraction calls across multiple pages per request rather than one call per page.
+- **Table-heavy pages**: plain-text PDF extraction can misalign or merge columns in dense financial tables, occasionally producing garbled or incomplete text for the extractor to work from. [Describe your specific observed case here for the demo.]
+- **Schema is fixed, not yet dynamically evolving**: the fact schema's fields are set in advance; a further iteration could let new fact "shapes" emerge as new kinds of documents are ingested, per the assignment's brownie-point suggestions.
+- **No incremental re-indexing**: adding a new document currently only matches its own facts against existing ones; it doesn't re-evaluate whether earlier documents should now be reconsidered against it in reverse (though the underlying vector search is symmetric, so this is mostly a matter of triggering the match step for older facts too).
+- **Large PDFs**: not yet tested against very large (500+ page) documents; the per-page approach should scale, but hasn't been stress-tested.
+
+---
+
+## Additional Notes
+
+[Add anything else worth mentioning — e.g. the RAG chat feature also built on the same fact/document store, or anything specific about how you selected the four required cases from the starter dataset.]
