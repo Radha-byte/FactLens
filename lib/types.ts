@@ -101,6 +101,13 @@ export interface DashboardSummary {
   total_documents: number;
   total_flags: number;
   total_equipment: number;
+  total_facts: number;                    // NEW
+  total_relationships: number;            // NEW
+  relationship_breakdown: {                // NEW
+    corroborates: number;
+    contradicts: number;
+    reconciled_by_context: number;
+  };
   recent_uploads: {
     id: string;
     file_name: string;

@@ -11,10 +11,10 @@ export default function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-50 border-b border-[#E7DFDA] bg-white/85 shadow-sm backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 sm:px-8">
         <a href="/" className="flex items-center gap-3.5">
-          <Image src="/brand/braid-loop.png" alt="BRAID" width={52} height={52} className="h-[52px] w-[52px]" />
+          <Image src="/brand/braid-loop.png" alt="factlens" width={52} height={52} className="h-[52px] w-[52px]" />
           <div>
             <h1 className="text-xl font-extrabold leading-none tracking-wide text-[#353535]">
-              BRAID
+              Factlens
             </h1>
             <p className="mt-1.5 italic text-[13px] leading-none text-gray-500">
               -"Documents that finally talk to each other".

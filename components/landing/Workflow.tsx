@@ -11,7 +11,7 @@ const steps = [
     number: "02",
     icon: BrainCircuit,
     title: "AI Processing",
-    description: "BRAID extracts entities, relationships and technical knowledge from every document.",
+    description: "Factlens extracts entities, relationships and technical knowledge from every document.",
   },
   {
     number: "03",
@@ -39,7 +39,7 @@ export default function Workflow() {
             Simple Workflow, Powerful Intelligence
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-base leading-7 text-gray-600">
-            BRAID transforms scattered industrial documents into an intelligent
+            Factlens transforms scattered industrial documents into an intelligent
             assistant in four simple steps.
           </p>
         </div>

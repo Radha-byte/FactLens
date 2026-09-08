@@ -162,7 +162,7 @@ export default function DocumentDetailPage() {
                 <h2 className="text-sm font-bold text-[#353535]">Institutional Memory</h2>
               </div>
               <p className="mt-1 text-xs text-gray-500">
-                Related documents BRAID found automatically when this was uploaded.
+                Related documents Factlens found automatically when this was uploaded.
               </p>
 
               {related.length === 0 ? (

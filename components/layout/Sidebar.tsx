@@ -26,9 +26,9 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full w-64 flex-col border-r border-[#E7DFDA] bg-white">
       <div className="flex items-center gap-3 border-b border-[#E7DFDA] px-5 py-5">
-        <Image src="/brand/braid-loop.png" alt="BRAID" width={56} height={56} className="h-14 w-14 shrink-0" />
+        <Image src="/brand/braid-loop.png" alt="factlens" width={56} height={56} className="h-14 w-14 shrink-0" />
         <div>
-          <p className="text-xl font-bold leading-none tracking-wide text-[#353535]">BRAID</p>
+          <p className="text-xl font-bold leading-none tracking-wide text-[#353535]">Factlens</p>
           <p className="mt-1.5 italic text-[11.5px] leading-snug text-gray-500">Documents that finally talk to each other.</p>
         </div>
       </div>

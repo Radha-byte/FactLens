@@ -28,9 +28,9 @@ export default function Footer() {
     <footer className="border-t border-[#E7DFDA] bg-[#FAF8F7] px-6 py-8 sm:px-8">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 sm:flex-row sm:items-start">
         <div className="flex items-center gap-2.5">
-          <Image src="/brand/braid-loop.png" alt="BRAID logo" width={30} height={30} />
+          <Image src="/brand/braid-loop.png" alt="factlens logo" width={30} height={30} />
           <div>
-            <p className="text-sm font-bold tracking-wide text-[#353535]">BRAID</p>
+            <p className="text-sm font-bold tracking-wide text-[#353535]">Factlens</p>
             <p className="text-[11px] text-gray-500">Documents that finally talk to each other.</p>
           </div>
         </div>
@@ -63,13 +63,13 @@ export default function Footer() {
             <LinkedinIcon />
           </a>
           <span className="ml-1 rounded-full border border-[#E7DFDA] bg-white px-3 py-1.5 text-[11px] font-medium text-[#7A6A66]">
-            ET AI Hackathon 2026 · Problem 8
+            Powered by SuperJoin.
           </span>
         </div>
       </div>
 
       <p className="mt-6 text-center text-[11px] text-gray-400">
-        © 2026 BRAID. Built by Team Syntactic Sugar for the ET AI Hackathon.
+        © 2026 Factlens.
       </p>
     </footer>
   );

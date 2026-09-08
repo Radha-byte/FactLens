@@ -9,11 +9,11 @@ export default function Hero() {
 
       <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.3]" aria-hidden="true">
         <defs>
-          <pattern id="braid-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+          <pattern id="factlens-dots" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
             <circle cx="1.5" cy="1.5" r="1.5" fill="#D9B8AE" fillOpacity="0.35" />
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#braid-dots)" />
+        <rect width="100%" height="100%" fill="url(#factlens-dots)" />
       </svg>
 
       <div className="relative mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 sm:px-8 lg:flex-row lg:justify-between lg:gap-10">
@@ -21,7 +21,7 @@ export default function Hero() {
         <div className="max-w-xl text-center animate-fade-in-up lg:text-left">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E7DFDA] bg-white px-3.5 py-1.5 text-xs font-semibold text-[#7A6A66] shadow-sm">
             <Sparkles size={13} className="text-[#D9B8AE]" />
-            ET AI Hackathon 2026
+            Intelligence Center of Document Search.
           </span>
 
           <h1 className="mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight text-[#2B2B2B] sm:text-5xl lg:text-[3.4rem]">
@@ -33,7 +33,7 @@ export default function Hero() {
           </h1>
 
           <p className="mx-auto mt-5 max-w-lg text-base leading-7 text-gray-600 lg:mx-0">
-            BRAID transforms maintenance manuals, SOPs, inspection reports and
+            Factlens transforms maintenance manuals, SOPs, inspection reports and
             institutional knowledge into one intelligent assistant capable of
             answering questions with trusted citations and contextual understanding.
           </p>
@@ -82,7 +82,7 @@ export default function Hero() {
           <div className="absolute inset-0 flex items-center justify-center rounded-full bg-gradient-to-br from-white to-[#F4EEE8] shadow-xl ring-1 ring-[#E7DFDA]">
             <Image
               src="/brand/braid-loop.png"
-              alt="BRAID Logo"
+              alt="factlens Logo"
               width={160}
               height={160}
               priority

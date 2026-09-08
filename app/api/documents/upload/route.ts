@@ -1,10 +1,14 @@
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
 import { processDocument } from "@/lib/services/documentProcessor";
 import { embedAndStoreDocument } from "@/lib/services/embeddingIngest";
 import { findAndStoreRelatedDocuments } from "@/lib/services/institutionalMemory";
+import { extractPageTexts } from "@/lib/services/pdfPages";
+import { extractFactsFromPage } from "@/lib/services/factExtractor";
+import { generateEmbedding } from "@/lib/services/embeddings";
+
 
 
 export async function POST(request: NextRequest) {
@@ -122,6 +126,53 @@ export async function POST(request: NextRequest) {
 
       if (flagError) {
         throw flagError;
+      }
+    }
+
+    // Page-level fact extraction, embedding, and cross-document relationship matching
+    const pageTexts = await extractPageTexts(fileBuffer);
+
+    for (let i = 0; i < pageTexts.length; i++) {
+      const pageNumber = i + 1;
+      const facts = await extractFactsFromPage(pageTexts[i]);
+
+      for (const fact of facts) {
+        // CHANGED — everything below, wrapped in try/catch so one bad fact
+        // (e.g. a transient Gemini 503/429 that exhausts retries) doesn't
+        // kill the rest of the upload
+        try {
+          const embedding = await generateEmbedding(
+            `${fact.subject} ${fact.predicate} ${fact.value}`
+          );
+
+          const { data: factRow, error: factError } = await supabaseAdmin
+            .from("facts")
+            .insert({
+              document_id: documentRow.id,
+              page_number: pageNumber,
+              subject: fact.subject,
+              predicate: fact.predicate,
+              value: fact.value,
+              unit: fact.unit,
+              time_period: fact.time_period,
+              scope: fact.scope,
+              quote: fact.quote,
+              confidence: fact.confidence,
+              embedding,
+            })
+            .select()
+            .single();
+
+          if (factError) {
+            console.error("Failed to store fact:", factError);
+            continue;
+          }
+
+          
+        } catch (factProcessingError) {
+          console.error("Skipping fact due to error:", factProcessingError);
+          continue;
+        }
       }
     }
 

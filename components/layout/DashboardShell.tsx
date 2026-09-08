@@ -36,7 +36,7 @@ export default function DashboardShell({
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Mobile top bar */}
         <div className="flex items-center justify-between border-b border-[#E7DFDA] bg-white px-4 py-3 md:hidden">
-          <span className="text-sm font-bold tracking-wide text-[#353535]">BRAID</span>
+          <span className="text-sm font-bold tracking-wide text-[#353535]">Factlens</span>
           <button
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Toggle navigation"

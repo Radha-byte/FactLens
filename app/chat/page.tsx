@@ -160,7 +160,7 @@ export default function ChatPage() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSend()}
-              placeholder="Ask BRAID about your equipment..."
+              placeholder="Ask Factlens about your equipment..."
               className="flex-1 rounded-xl border border-[#E7DFDA] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#D9B8AE] focus:ring-2 focus:ring-[#D9B8AE]/30"
             />
             <button

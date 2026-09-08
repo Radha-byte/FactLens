@@ -5,7 +5,8 @@ import Link from "next/link";
 import {
   FileText,
   AlertTriangle,
-  Boxes,
+  FileSearch,
+  GitCompare,
   UploadCloud,
   MessageSquareText,
   ArrowRight,
@@ -16,8 +17,8 @@ import type { DashboardSummary } from "@/lib/types";
 
 const statCards = [
   { key: "total_documents" as const, label: "Documents", icon: FileText, tint: "from-[#F4EEE8] to-[#EFE3DD] text-[#C79D92]" },
-  { key: "total_equipment" as const, label: "Equipment Tracked", icon: Boxes, tint: "from-[#EFEAF3] to-[#E4DCEC] text-[#B4A7C8]" },
-  { key: "total_flags" as const, label: "Open Flags", icon: AlertTriangle, tint: "from-[#F4EEE8] to-[#EFE3DD] text-[#C79D92]" },
+  { key: "total_facts" as const, label: "Facts Extracted", icon: FileSearch, tint: "from-[#EFEAF3] to-[#E4DCEC] text-[#B4A7C8]" },
+  { key: "total_relationships" as const, label: "Relationships Found", icon: GitCompare, tint: "from-[#F4EEE8] to-[#EFE3DD] text-[#C79D92]" },
 ];
 
 export default function DashboardPage() {
@@ -49,7 +50,7 @@ export default function DashboardPage() {
           <div>
             <h1 className="text-2xl font-extrabold text-[#2B2B2B]">Dashboard</h1>
             <p className="mt-1 text-sm text-gray-500">
-              A live overview of everything BRAID has indexed so far.
+              A live overview of everything Factlens has indexed so far.
             </p>
           </div>
           <div className="flex gap-2">

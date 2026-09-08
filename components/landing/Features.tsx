@@ -11,7 +11,7 @@ const features = [
   {
     icon: FileSearch,
     title: "Document Intelligence",
-    description: "Upload manuals, SOPs and reports. BRAID understands and indexes every document.",
+    description: "Upload manuals, SOPs and reports. Factlens understands and indexes every document.",
   },
   {
     icon: Network,
@@ -52,7 +52,7 @@ export default function Features() {
             Everything You Need In One Platform
           </h2>
           <p className="mx-auto mt-3 max-w-xl text-base leading-7 text-gray-600">
-            BRAID combines AI, semantic search, knowledge graphs and document
+            Factlens combines AI, semantic search, knowledge graphs and document
             intelligence into a single industrial knowledge platform.
           </p>
         </div>

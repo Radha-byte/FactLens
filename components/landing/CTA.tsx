@@ -18,7 +18,7 @@ export default function CTA() {
             href="/dashboard"
             className="flex items-center gap-2 rounded-xl bg-[#2B2B2B] px-6 py-3 text-sm font-semibold text-white shadow-md transition duration-300 hover:scale-[1.03] hover:bg-black"
           >
-            Try BRAID
+            Try Factlens
             <ArrowRight size={16} />
           </a>
           <a

@@ -14,9 +14,9 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "BRAID — Industrial Knowledge Intelligence",
+  title: "Factlens — Fact Knowledge Layer",
   description:
-    "BRAID transforms maintenance manuals, SOPs, inspection reports and institutional knowledge into one AI assistant that answers with trusted citations.",
+    "FactLens extracts facts from documents, links every fact to its source evidence, and identifies where facts across documents corroborate, contradict, or reconcile through context.",
 };
 
 export default function RootLayout({
