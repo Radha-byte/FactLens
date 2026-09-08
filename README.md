@@ -108,8 +108,6 @@ with a one-sentence reasoning grounded in both facts' evidence
 
 - **AI tools used**: Gemini (`gemini-3.1-flash-lite`) for fact extraction and relationship classification, and Gemini's embedding model for vector similarity search. Claude was used throughout development for architecture planning, debugging, and code review.
 
-- **This project builds on my own prior work** ([BRAID](https://github.com/), a document-intelligence platform built for a separate hackathon) — the Next.js/Supabase/pgvector/Gemini infrastructure, PDF upload flow, and UI shell were reused and adapted; the fact-extraction schema, quote-verification step, and cross-document relationship classification logic described above are new, built specifically for this assignment's requirements.
-
 ---
 
 ## Limitations and Next Steps
