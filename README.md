@@ -6,6 +6,8 @@ Built for the Superjoin VIT 2026 Engineering Intern hiring assignment.
 
 ---
 
+**Live deployment**: https://factlens-yourname.vercel.app
+
 ## Setup and Run Instructions
 
 ### Prerequisites
