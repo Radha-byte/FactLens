@@ -105,6 +105,10 @@ with a one-sentence reasoning grounded in both facts' evidence
 
 ### The four required cases
 
+![Dashboard showing 437 extracted facts across 14 documents](./screenshots/dashboard.png)
+
+![Relationships page showing corroboration, contradiction, and reconciled-by-context examples](./screenshots/relationships.png)
+
 **1. Corroboration** — `EBITDA — 127 ₹ Cr` (FY24) and `EBITDA margin — 1.6%` (FY24), both from the Q4 FY24 earnings presentation (p.6). The system correctly recognized these as the same underlying data point stated in two different units (absolute value vs. margin percentage), rather than treating them as unrelated numbers.
 
 **2. Genuine contradiction** — `FY24 EBITDA increased by Rs. 578 Cr` vs. `FY24 EBITDA` reported at `Rs. 127 Cr`, both from the same document. The system flagged these as reporting "drastically different values for EBITDA in the same fiscal year." (See Limitations — this case also revealed a real reasoning limitation, discussed below.)
