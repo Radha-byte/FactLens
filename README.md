@@ -1,6 +1,6 @@
 # FactLens
 
-**Live deployment**: https://factlens-yourname.vercel.app *(replace with your actual Vercel URL)*
+**Live deployment**: https://fact-lens-sage.vercel.app
 
 A fact knowledge layer that extracts atomic facts from PDF documents, links every fact to its verbatim source evidence (document, page, and exact quote), and identifies where facts across documents corroborate, contradict, or are reconciled by context — differences in time period, scope, or units.
 
