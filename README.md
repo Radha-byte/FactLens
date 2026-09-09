@@ -68,7 +68,7 @@ Open `http://localhost:3000`.
 
 ## Video Demo
 
-**[Insert your video link here — YouTube unlisted or Google Drive, ≤3 minutes]**
+https://drive.google.com/file/d/YOUR_FILE_ID/view?usp=sharing
 
 The video shows a document being processed and walks through all four required cases described below.
 
