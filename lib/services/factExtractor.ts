@@ -1,5 +1,5 @@
 import { gemini } from "@/lib/gemini";
-import { withRetry } from "@/lib/services/geminiQueue"; // NEW
+import { withRetry } from "@/lib/services/geminiQueue";
 
 export interface ExtractedFact {
   subject: string;
@@ -10,53 +10,49 @@ export interface ExtractedFact {
   scope: string | null;
   quote: string;
   confidence: number;
+  page_number: number; // NEW — model now reports which page each fact came from
 }
-
-const FACT_EXTRACTION_PROMPT = `
-You are extracting verifiable facts from one page of a document.
-
-A fact is any specific numeric or semantic claim that could be checked
-against another document — a figure, a date, a status, a relationship.
-
-Return ONLY valid JSON, no markdown fences, no explanation:
-
-{
-  "facts": [
-    {
-      "subject": "",
-      "predicate": "",
-      "value": "",
-      "unit": null,
-      "time_period": null,
-      "scope": null,
-      "quote": "",
-      "confidence": 0.9
-    }
-  ]
-}
-
-Rules:
-- "quote" must be an exact, verbatim substring of the page text below —
-  do not paraphrase it. If you cannot point to exact source text, do not
-  include the fact.
-- If nothing on this page qualifies, return {"facts": []}.
-
-Page text:
-"""
-{{PAGE_TEXT}}
-"""
-`;
 
 function normalizeWhitespace(s: string): string {
   return s.replace(/\s+/g, " ").trim();
 }
 
-export async function extractFactsFromPage(pageText: string): Promise<ExtractedFact[]> {
-  if (!pageText || pageText.trim().length < 20) return [];
+// NEW — processes multiple pages in one Gemini call
+export async function extractFactsFromPageBatch(
+  pages: { pageNumber: number; text: string }[]
+): Promise<ExtractedFact[]> {
+  const usablePages = pages.filter((p) => p.text && p.text.trim().length >= 20);
+  if (usablePages.length === 0) return [];
 
-  const prompt = FACT_EXTRACTION_PROMPT.replace("{{PAGE_TEXT}}", pageText);
+  const combinedText = usablePages
+    .map((p) => `=== PAGE ${p.pageNumber} ===\n${p.text}`)
+    .join("\n\n");
 
-  // CHANGED — wrapped in withRetry
+  const prompt = `
+You are extracting verifiable facts from several pages of a document.
+Each page is marked with "=== PAGE N ===" before its text.
+
+A fact is any specific numeric or semantic claim that could be checked
+against another document — a figure, a date, a status, a relationship.
+
+Return ONLY valid JSON, no markdown fences, no explanation:
+{
+  "facts": [
+    { "subject": "", "predicate": "", "value": "", "unit": null, "time_period": null, "scope": null, "quote": "", "confidence": 0.9, "page_number": 1 }
+  ]
+}
+
+Rules:
+- "page_number" must be the exact page number the fact came from, from the "=== PAGE N ===" markers.
+- "quote" must be an exact, verbatim substring of that page's text — do not paraphrase.
+- If nothing qualifies on a page, simply don't include facts for it.
+
+Pages:
+"""
+${combinedText}
+"""
+`;
+
   const response = await withRetry(() =>
     gemini.models.generateContent({
       model: "gemini-3.1-flash-lite",
@@ -72,13 +68,24 @@ export async function extractFactsFromPage(pageText: string): Promise<ExtractedF
   let parsed: { facts: ExtractedFact[] };
   try {
     parsed = JSON.parse(clean);
-  } catch (e) {
-    console.error("Failed to parse fact extraction JSON:", clean);
+  } catch {
+    console.error("Failed to parse batch fact extraction JSON");
     return [];
   }
 
-  const normalizedPage = normalizeWhitespace(pageText);
-  return (parsed.facts ?? []).filter((f) =>
-    normalizedPage.includes(normalizeWhitespace(f.quote))
-  );
+  const pageTextByNumber = new Map(usablePages.map((p) => [p.pageNumber, normalizeWhitespace(p.text)]));
+
+  // NEW — log any facts the model proposed that couldn't be grounded in the source text
+  const rejected = (parsed.facts ?? []).filter((f) => {
+    const pageText = pageTextByNumber.get(f.page_number);
+    return !pageText || !pageText.includes(normalizeWhitespace(f.quote));
+  });
+  if (rejected.length > 0) {
+    console.log("REJECTED FACTS:", JSON.stringify(rejected, null, 2));
+  }
+
+  return (parsed.facts ?? []).filter((f) => {
+    const pageText = pageTextByNumber.get(f.page_number);
+    return pageText && pageText.includes(normalizeWhitespace(f.quote));
+  });
 }

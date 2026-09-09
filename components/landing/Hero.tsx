@@ -21,21 +21,19 @@ export default function Hero() {
         <div className="max-w-xl text-center animate-fade-in-up lg:text-left">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E7DFDA] bg-white px-3.5 py-1.5 text-xs font-semibold text-[#7A6A66] shadow-sm">
             <Sparkles size={13} className="text-[#D9B8AE]" />
-            Intelligence Center of Document Search.
+            Extract, Verify, and Cross-Reference Facts.
           </span>
 
           <h1 className="mt-5 text-4xl font-extrabold leading-[1.1] tracking-tight text-[#2B2B2B] sm:text-5xl lg:text-[3.4rem]">
-            Industrial{" "}
+            Fact{" "}
             <span className="bg-gradient-to-r from-[#D9B8AE] via-[#C79D92] to-[#B4A7C8] bg-clip-text text-transparent">
-              Knowledge Intelligence
+              Knowledge Layer for
             </span>{" "}
-            Platform
+            Your Documents
           </h1>
 
           <p className="mx-auto mt-5 max-w-lg text-base leading-7 text-gray-600 lg:mx-0">
-            Factlens transforms maintenance manuals, SOPs, inspection reports and
-            institutional knowledge into one intelligent assistant capable of
-            answering questions with trusted citations and contextual understanding.
+            Factlens transforms maintenance manuals, SOPs, inspection reports and institutional knowledge into..." → "FactLens extracts atomic facts from your documents, links every fact to its exact source evidence, and identifies where facts across documents corroborate, contradict, or are reconciled by context.
           </p>
 
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
@@ -57,9 +55,9 @@ export default function Hero() {
           {/* Stat strip */}
           <div className="mt-9 grid grid-cols-3 gap-4 border-t border-[#E7DFDA] pt-5">
             <div className="text-center lg:text-left">
-              <p className="text-xl font-extrabold text-[#353535]">6</p>
+              <p className="text-xl font-extrabold text-[#353535]">3</p>
               <p className="mt-0.5 text-[11px] font-medium uppercase tracking-wide text-[#8B87A0]">
-                Core Modules
+                Relationship Types
               </p>
             </div>
             <div className="text-center lg:text-left">

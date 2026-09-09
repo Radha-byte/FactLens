@@ -87,8 +87,7 @@ export default function EquipmentPage() {
       <div className="mx-auto max-w-6xl">
         <h1 className="text-2xl font-extrabold text-[#2B2B2B]">Equipment Explorer</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Search anything mentioned across your documents — equipment, people,
-          components, procedures.
+          Search anything extracted across your documents — companies, figures, dates, metrics.
         </p>
 
         {/* Search */}

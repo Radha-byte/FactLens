@@ -24,7 +24,7 @@ export async function GET() {
           .limit(5),
 
           supabaseAdmin.from("facts").select("*", { count: "exact", head: true }),
-          supabaseAdmin.from("relationships").select("relationship_type"),
+          supabaseAdmin.from("fact_relationships").select("relationship_type"),
       ]);
 
     if (documentsCount.error) throw documentsCount.error;

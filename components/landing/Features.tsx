@@ -11,22 +11,22 @@ const features = [
   {
     icon: FileSearch,
     title: "Document Intelligence",
-    description: "Upload manuals, SOPs and reports. Factlens understands and indexes every document.",
+    description: "Upload PDFs — FactLens extracts atomic facts with page-level source citations.",
   },
   {
     icon: Network,
-    title: "Knowledge Graph",
-    description: "Connect equipment, procedures and experts into one searchable knowledge network.",
+    title: "Cross-Document Matching",
+    description: "Finds facts across different documents that refer to the same underlying claim.",
   },
   {
     icon: MessageSquareText,
     title: "AI Copilot",
-    description: "Ask natural language questions and receive contextual answers with citations.",
+    description: "Ask natural language questions and get answers grounded in your uploaded documents.",
   },
   {
     icon: History,
-    title: "Institutional Memory",
-    description: "Capture decades of engineering experience before valuable knowledge disappears.",
+    title: "Fact Verification",
+    description: "Every fact is checked against its source quote before being trusted.",
   },
   {
     icon: Mic,
@@ -35,8 +35,8 @@ const features = [
   },
   {
     icon: Quote,
-    title: "Risk Detection",
-    description: "Identify missing information, conflicting procedures and operational risks.",
+    title: "Relationship Classification",
+    description: "Identifies whether facts corroborate, contradict, or are reconciled by context — with reasoning.",
   },
 ];
 

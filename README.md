@@ -23,7 +23,7 @@ npm install
 ### 2. Set up the database
 In your Supabase project's SQL Editor, run the schema in `supabase/schema.sql` (creates `documents`, `facts`, `fact_relationships`, and the `match_facts` vector search function).
 
-Also grant the service role the required table privileges (needed once, since tables created via the SQL Editor don't get this automatically):
+Grant the service role the required table privileges (needed once, since tables created via the SQL Editor don't get this automatically):
 ```sql
 grant usage on schema public to service_role;
 grant select, insert, update, delete on all tables in schema public to service_role;
@@ -53,8 +53,12 @@ Open `http://localhost:3000`.
    ```bash
    curl -X POST http://localhost:3000/api/admin/match-relationships
    ```
-   This is a separate, re-runnable step by design (see Approach below) — safe to run again if it's interrupted partway.
+   (On Windows PowerShell: `Invoke-WebRequest -Uri http://localhost:3000/api/admin/match-relationships -Method POST`)
+
+   This is deliberately a separate, re-runnable step — see Approach below for why.
 3. Go to **Relationships** to see fact pairs classified as corroborating, contradicting, or reconciled by context, each with the model's reasoning and both pieces of source evidence.
+
+**Note on API quotas**: this project runs entirely on Gemini's free tier, which caps both requests-per-minute and requests-per-day. Processing many documents in one session can exhaust the daily quota; see Limitations below.
 
 ---
 
@@ -62,7 +66,7 @@ Open `http://localhost:3000`.
 
 **[Link to demo video — under 3 minutes]**
 
-Shows: a PDF being uploaded and processed live, and the four required cases (corroboration, contradiction, reconciled-by-context, and an extraction/reasoning failure).
+Shows a PDF being processed and all four required cases below.
 
 ---
 
@@ -76,50 +80,63 @@ PDF upload
 Per-page text extraction (unpdf) — preserves real page numbers for evidence linking
    │
    ▼
-Per-page fact extraction (Gemini) — atomic facts as structured JSON:
-   subject / predicate / value / unit / time_period / scope / quote / confidence
+Batched fact extraction (Gemini, ~5 pages per call) — atomic facts as structured JSON:
+   subject / predicate / value / unit / time_period / scope / quote / confidence / page_number
    │
    ▼
-Quote verification — each fact's quote is checked against the source page text
-(whitespace-normalized) before being accepted; unverifiable facts are dropped
+Quote verification — each fact's quote is checked against its source page's text
+(whitespace-normalized) before being accepted; unverifiable facts are logged and dropped
    │
    ▼
 Embedding (Gemini embeddings, 768-dim) — stored alongside each fact
    │
    ▼
-[separate step] Cross-document matching — vector similarity search (pgvector)
-finds candidate fact pairs across different documents
+[separate, re-runnable step] Cross-document matching — pgvector similarity search
+finds candidate fact pairs across different documents (same-document pairs excluded,
+similarity threshold applied in SQL)
    │
    ▼
-[separate step] Relationship classification (Gemini) — each candidate pair is
-classified as corroborates / contradicts / reconciled_by_context / unrelated,
+[separate, re-runnable step] Relationship classification (Gemini) — each candidate
+pair is classified as corroborates / contradicts / reconciled_by_context / unrelated,
 with a one-sentence reasoning grounded in both facts' evidence
 ```
 
+### The four required cases
+
+**1. Corroboration** — `EBITDA — 127 ₹ Cr` (FY24) and `EBITDA margin — 1.6%` (FY24), both from the Q4 FY24 earnings presentation (p.6). The system correctly recognized these as the same underlying data point stated in two different units (absolute value vs. margin percentage), rather than treating them as unrelated numbers.
+
+**2. Genuine contradiction** — `FY24 EBITDA increased by Rs. 578 Cr` vs. `FY24 EBITDA` reported at `Rs. 127 Cr`, both from the same document. The system flagged these as reporting "drastically different values for EBITDA in the same fiscal year." (See Limitations — this case also revealed a real reasoning limitation, discussed below.)
+
+**3. Reconciled by context** — `EBITDA — 127 ₹ Cr` (FY24, full year) vs. `EBITDA — 109 Cr` (Q3 FY24), from two different pages of the same earnings presentation. The system correctly explained the difference as full-year vs. single-quarter figures rather than flagging it as a contradiction — the `time_period` field carried through extraction is what made this distinction possible.
+
+**4. Extraction/reasoning failure** — [Fill in your final chosen example here — either: (a) the quote-verification safety net rejecting facts whose cited quote didn't exactly match the source page text (visible in server logs as `REJECTED FACTS`), showing the system correctly refusing to trust an unverifiable claim; or (b) the Case 2 contradiction above being a reasoning limitation in disguise — the system compared an absolute EBITDA value (127 Cr) against a stated *increase* in EBITDA (578 Cr) as if they were the same kind of quantity, when one is a level and the other is a delta. A more complete system would distinguish "value" facts from "change-in-value" facts as different predicate types before comparing them, which would have caught this as a category mismatch rather than a contradiction.]
+
 ### Key decisions and trade-offs
 
-- **Facts are extracted per page, not per document.** Sending an entire PDF to the model in one call (as an earlier iteration of this project's ingestion pipeline did) makes it impossible to know which page a claim came from. Splitting into per-page text first means every fact carries a real page number, which is what makes the evidence link meaningful rather than just "somewhere in this file."
+- **Facts are extracted per page, not per document**, and pages are batched (~5 per Gemini call) rather than processed one at a time. Per-page extraction means every fact carries a real page number for evidence linking; batching keeps the number of API calls manageable against free-tier rate limits.
 
-- **Every extracted fact is quote-verified before being stored.** The model is asked to cite a verbatim quote for each fact; that quote is checked against the actual page text (after normalizing whitespace, since PDF line-wrapping doesn't always match the model's rendering of a sentence) before the fact is accepted. This is a deliberate defense against hallucinated facts — a fact with no real anchor in the source text is dropped rather than trusted.
+- **Every extracted fact is quote-verified before being stored.** The model must cite a verbatim quote for each fact; that quote is checked against the actual page text (whitespace-normalized, since PDF line-wrapping doesn't always match the model's rendering of a sentence) before the fact is accepted. Facts that fail this check are logged and dropped rather than trusted — a deliberate defense against hallucination.
 
-- **Relationship matching is a separate, resumable step from ingestion**, not a side effect of upload. Cross-document comparison requires an LLM call per candidate pair, on top of the extraction and embedding calls already required per fact — chaining all of this into one long request per upload made the whole pipeline fragile to any single transient failure (rate limits, momentary network issues). Decoupling means an upload finishes once its own facts are saved, and relationship matching can be triggered, interrupted, and safely re-run without reprocessing or duplicating anything (enforced by a uniqueness constraint on fact pairs).
+- **Relationship matching is a separate, resumable step from ingestion**, triggered manually after uploads rather than running automatically per-document. Chaining extraction, embedding, and classification into one long request per upload made the whole pipeline fragile to any single transient failure (rate limits, network blips). Decoupling means an upload finishes once its own facts are saved, and matching can be triggered, interrupted, and safely re-run without reprocessing or duplicating anything — a uniqueness constraint on fact pairs makes re-runs idempotent. **This also means new documents are processed incrementally**: uploading a new PDF only extracts and embeds that document's own facts and matches them against the existing pool — it never reprocesses or re-embeds documents already in the system.
 
-- **The schema is intentionally generic** (subject/predicate/value/unit/time_period/scope/quote), not shaped around this project's two sample datasets. Nothing in the prompts or schema assumes financial documents specifically — the same pipeline should extract structured facts from a differently-shaped domain without code changes, which was an explicit requirement of the assignment.
+- **The schema is intentionally generic** (subject/predicate/value/unit/time_period/scope/quote), not shaped around this project's two sample datasets. Nothing in the prompts or schema assumes financial documents specifically, in line with the requirement that the system generalize beyond the starter documents.
 
-- **AI tools used**: Gemini (`gemini-3.1-flash-lite`) for fact extraction and relationship classification, and Gemini's embedding model for vector similarity search. Claude was used throughout development for architecture planning, debugging, and code review.
+- **AI tools used**: Gemini (`gemini-3.1-flash-lite`) for fact extraction and relationship classification, and Gemini's embedding model for vector similarity search (pgvector). Claude was used throughout development for architecture planning, debugging, and code review.
 
 ---
 
 ## Limitations and Next Steps
 
-- **Rate limits**: the Gemini free tier caps requests per minute, so processing a long document (extraction + embedding + matching, one call each per fact) can take several minutes. A request queue with throttling and retry-on-failure is in place, but a production version would batch extraction calls across multiple pages per request rather than one call per page.
-- **Table-heavy pages**: plain-text PDF extraction can misalign or merge columns in dense financial tables, occasionally producing garbled or incomplete text for the extractor to work from. [Describe your specific observed case here for the demo.]
-- **Schema is fixed, not yet dynamically evolving**: the fact schema's fields are set in advance; a further iteration could let new fact "shapes" emerge as new kinds of documents are ingested, per the assignment's brownie-point suggestions.
-- **No incremental re-indexing**: adding a new document currently only matches its own facts against existing ones; it doesn't re-evaluate whether earlier documents should now be reconsidered against it in reverse (though the underlying vector search is symmetric, so this is mostly a matter of triggering the match step for older facts too).
-- **Large PDFs**: not yet tested against very large (500+ page) documents; the per-page approach should scale, but hasn't been stress-tested.
+- **Free-tier rate and daily quotas**: Gemini's free tier caps both requests-per-minute and requests-per-day (500/day at time of writing). Processing many documents plus a full relationship-matching pass in one session can exhaust the daily limit, after which the system correctly reports the failure (via retry-then-error) rather than hanging silently — but no further processing is possible until the quota resets. A production version would use a paid tier with higher throughput and true request batching.
+- **The naive value-vs-delta comparison** described in Case 4 above is a real reasoning gap: the system doesn't yet distinguish an absolute value from a stated change-in-value as different predicate types, which can produce a false-positive "contradiction" between two facts that are actually consistent. Fixing this would mean adding a predicate-type classification step before candidate matching.
+- **Schema is fixed, not yet dynamically evolving**: fact fields are set in advance rather than emerging from the documents themselves, as suggested in the brief's brownie points.
+- **Table-heavy PDF pages** can produce imperfect text extraction (merged or misaligned columns), which occasionally limits what the extractor has to work with on dense financial statement pages.
+- **Large PDFs**: the per-page batched approach scales reasonably, but hasn't been stress-tested against very large (500+ page) documents.
 
 ---
 
 ## Additional Notes
 
-[Add anything else worth mentioning — e.g. the RAG chat feature also built on the same fact/document store, or anything specific about how you selected the four required cases from the starter dataset.]
+This system processes new documents incrementally by design — uploading an additional PDF only extracts and embeds its own facts, then matches them against the existing knowledge base, without reprocessing or rebuilding anything already stored.
+
+[Add anything else worth mentioning here.]

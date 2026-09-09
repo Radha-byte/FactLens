@@ -8,7 +8,7 @@ async function throttle() {
   lastCallTime = Date.now();
 }
 
-export async function withRetry<T>(fn: () => Promise<T>, retries = 3): Promise<T> {
+export async function withRetry<T>(fn: () => Promise<T>, retries = 4): Promise<T> {
   await throttle();
   try {
     return await fn();

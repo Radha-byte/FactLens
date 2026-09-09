@@ -100,7 +100,7 @@ export default function ChatPage() {
                   <MessageSquareText size={22} />
                 </span>
                 <p className="mt-4 text-sm font-medium text-[#353535]">
-                  Ask about any equipment, procedure, or issue
+                  Ask Factlens about any equipment, procedure, or issue
                 </p>
                 <p className="mt-1 max-w-xs text-xs text-gray-500">
                   e.g. &ldquo;What was found during Pump-101&apos;s last inspection?&rdquo;

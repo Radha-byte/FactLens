@@ -10,11 +10,13 @@ import {
   UploadCloud,
   Mic,
   Home,
+  GitCompare, // NEW
 } from "lucide-react";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Equipment", href: "/equipment", icon: Boxes },
+  { label: "Relationships", href: "/relationships", icon: GitCompare }, // NEW
   { label: "Chat", href: "/chat", icon: MessageSquareText },
   { label: "Upload", href: "/upload", icon: UploadCloud },
   { label: "Capture Knowledge", href: "/capture", icon: Mic },
@@ -26,9 +28,9 @@ export default function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
   return (
     <div className="flex h-full w-64 flex-col border-r border-[#E7DFDA] bg-white">
       <div className="flex items-center gap-3 border-b border-[#E7DFDA] px-5 py-5">
-        <Image src="/brand/braid-loop.png" alt="factlens" width={56} height={56} className="h-14 w-14 shrink-0" />
+        <Image src="/brand/braid-loop.png" alt="FactLens" width={56} height={56} className="h-14 w-14 shrink-0" /> {/* CHANGED alt text */}
         <div>
-          <p className="text-xl font-bold leading-none tracking-wide text-[#353535]">Factlens</p>
+          <p className="text-xl font-bold leading-none tracking-wide text-[#353535]">FactLens</p> {/* CHANGED */}
           <p className="mt-1.5 italic text-[11.5px] leading-snug text-gray-500">Documents that finally talk to each other.</p>
         </div>
       </div>
