@@ -68,7 +68,7 @@ Open `http://localhost:3000`.
 
 ## Video Demo
 
-https://drive.google.com/file/d/YOUR_FILE_ID/view?usp=sharing
+https://drive.google.com/file/d/1UDKulX0yVLsqJwXmiDiXgPOmzZ7FpsMa/view?usp=sharing
 
 The video shows a document being processed and walks through all four required cases described below.
 
